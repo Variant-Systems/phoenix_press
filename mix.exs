@@ -11,7 +11,7 @@ defmodule PhoenixPress.MixProject do
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      description: "SEO essentials for Phoenix: sitemaps, robots.txt, and RSS feeds.",
+      description: "SEO and discoverability for Phoenix: sitemaps, robots.txt, RSS feeds, and llms.txt.",
       source_url: @source_url,
       homepage_url: @source_url,
       docs: docs(),

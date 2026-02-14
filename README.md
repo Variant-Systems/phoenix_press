@@ -1,6 +1,6 @@
 # PhoenixPress
 
-SEO essentials for Phoenix: sitemaps, robots.txt, and RSS feeds.
+SEO and discoverability for Phoenix: sitemaps, robots.txt, RSS feeds, and llms.txt.
 
 Compile-time, declarative, and served via a single Plug. Zero runtime overhead per request.
 
@@ -11,7 +11,7 @@ Add `phoenix_press` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:phoenix_press, "~> 0.1.0"}
+    {:phoenix_press, "~> 0.2.0"}
   ]
 end
 ```
@@ -66,6 +66,23 @@ defmodule MyAppWeb.Press.Feed do
 end
 ```
 
+**llms.txt**
+
+```elixir
+defmodule MyAppWeb.Press.LlmsTxt do
+  use PhoenixPress.LlmsTxt,
+    title: "My App",
+    description: "A platform for managing widgets."
+
+  section "Docs"
+  link "/docs/getting-started", "Getting Started", "How to set up the project"
+  link "/docs/api", "API Reference", "Full API documentation"
+
+  section "Optional"
+  link "/blog", "Blog", "Latest updates"
+end
+```
+
 ### 2. Add the Plug to your endpoint
 
 Add it **before** your router:
@@ -74,7 +91,8 @@ Add it **before** your router:
 plug PhoenixPress.Plug,
   sitemap: MyAppWeb.Press.Sitemap,
   robots: MyAppWeb.Press.Robots,
-  feed: MyAppWeb.Press.Feed
+  feed: MyAppWeb.Press.Feed,
+  llms_txt: MyAppWeb.Press.LlmsTxt
 ```
 
 Any key can be omitted if you don't need that feature.
@@ -85,6 +103,7 @@ Your app now serves:
 - `GET /sitemap.xml` with `Content-Type: text/xml`
 - `GET /robots.txt` with `Content-Type: text/plain`
 - `GET /feed.xml` with `Content-Type: application/rss+xml`
+- `GET /llms.txt` with `Content-Type: text/plain`
 
 All responses include `Cache-Control: public, max-age=3600`.
 

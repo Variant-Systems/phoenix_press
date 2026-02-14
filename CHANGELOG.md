@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 (2026-02-14)
+
+- Add compile-time llms.txt generation via `PhoenixPress.LlmsTxt`
+- Serve `/llms.txt` from `PhoenixPress.Plug` with `llms_txt:` option
+
 ## 0.1.0 (2026-02-13)
 
 Initial release.
