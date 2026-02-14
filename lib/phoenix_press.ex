@@ -1,6 +1,6 @@
 defmodule PhoenixPress do
   @moduledoc """
-  SEO essentials for Phoenix: sitemaps, robots.txt, and RSS feeds.
+  SEO and discoverability essentials for Phoenix: sitemaps, robots.txt, RSS feeds, and llms.txt.
 
   Compile-time, declarative, and served via a single Plug.
 
@@ -66,6 +66,23 @@ defmodule PhoenixPress do
   end
   ```
 
+  **llms.txt** — see `PhoenixPress.LlmsTxt` for full options:
+
+  ```elixir
+  defmodule MyAppWeb.Press.LlmsTxt do
+    use PhoenixPress.LlmsTxt,
+      title: "My App",
+      description: "A platform for managing widgets."
+
+    section "Docs"
+    link "/docs/getting-started", "Getting Started", "How to set up the project"
+    link "/docs/api", "API Reference", "Full API documentation"
+
+    section "Optional"
+    link "/blog", "Blog", "Latest updates"
+  end
+  ```
+
   ### 3. Mount the plug
 
   Add `PhoenixPress.Plug` to your endpoint **before** the router:
@@ -75,7 +92,8 @@ defmodule PhoenixPress do
   plug PhoenixPress.Plug,
     sitemap: MyAppWeb.Press.Sitemap,
     robots: MyAppWeb.Press.Robots,
-    feed: MyAppWeb.Press.Feed
+    feed: MyAppWeb.Press.Feed,
+    llms_txt: MyAppWeb.Press.LlmsTxt
   ```
 
   Any key can be omitted if you don't need that feature. See `PhoenixPress.Plug` for details.
@@ -85,6 +103,7 @@ defmodule PhoenixPress do
   - `/sitemap.xml` — XML sitemap
   - `/robots.txt` — robots directives
   - `/feed.xml` — RSS 2.0 feed
+  - `/llms.txt` — LLM-friendly documentation
 
   ## How It Works
 

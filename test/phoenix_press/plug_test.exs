@@ -23,10 +23,20 @@ defmodule PhoenixPress.PlugTest do
     entry("Post", link: "/blog/post", description: "A post", pub_date: ~D[2026-01-01])
   end
 
+  defmodule TestLlmsTxt do
+    use PhoenixPress.LlmsTxt,
+      title: "Test App",
+      description: "A test application."
+
+    section "Docs"
+    link "/docs", "Documentation", "Full docs"
+  end
+
   @opts PhoenixPress.Plug.init(
           sitemap: TestSitemap,
           robots: TestRobots,
-          feed: TestFeed
+          feed: TestFeed,
+          llms_txt: TestLlmsTxt
         )
 
   test "serves sitemap.xml" do
@@ -54,6 +64,16 @@ defmodule PhoenixPress.PlugTest do
     assert conn.status == 200
     assert get_resp_header(conn, "content-type") |> hd() =~ "application/rss+xml"
     assert conn.resp_body =~ "<rss version"
+    assert conn.halted
+  end
+
+  test "serves llms.txt" do
+    conn = conn(:get, "/llms.txt") |> PhoenixPress.Plug.call(@opts)
+
+    assert conn.status == 200
+    assert get_resp_header(conn, "content-type") |> hd() =~ "text/plain"
+    assert get_resp_header(conn, "cache-control") == ["public, max-age=3600"]
+    assert conn.resp_body =~ "# Test App"
     assert conn.halted
   end
 
