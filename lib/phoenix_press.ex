@@ -12,7 +12,7 @@ defmodule PhoenixPress do
   # mix.exs
   def deps do
     [
-      {:phoenix_press, "~> 0.1.0"}
+      {:phoenix_press, "~> 0.2.0"}
     ]
   end
   ```
